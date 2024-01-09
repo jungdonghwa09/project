@@ -69,6 +69,8 @@ public class BoardController implements ExceptionProcessor {
 
         if (mode.equals("add") || mode.equals("edit")) {
             addCommonScript.add("ckeditor5/ckeditor");
+            addCommonScript.add("fileManager");
+
             addScript.add("board/form");
         }
         model.addAttribute("pageTitle", pageTitle);
