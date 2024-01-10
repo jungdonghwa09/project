@@ -125,4 +125,10 @@ public class Utils {
     public String printThumb(long seq, int width, int height) {
         return printThumb(seq, width, height, null);
     }
+
+    public static int onlyPositiveNumber(int num, int replace){
+        return num < 1 ? replace : num;
+        //0이하면 1이상인 수로 대체
+    }
 }
+
