@@ -1,5 +1,6 @@
-package org.choongang.admin.board;
+package org.choongang.admin.board.controllers;
 
+import jakarta.validation.Valid;
 import org.choongang.admin.menus.Menu;
 import org.choongang.admin.menus.MenuDetail;
 import org.choongang.commons.ExceptionProcessor;
@@ -7,6 +8,7 @@ import org.choongang.commons.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,14 +35,19 @@ public class BoardController implements ExceptionProcessor {
         return "admin/board/list";
     }
     @GetMapping("/add")
-    public String add(Model model){
+    public String add(@ModelAttribute RequestBoardConfig config,Model model){
         commonProcess("add", model);
         //게시판 등록
         return "admin/board/add";
     }
     @PostMapping("/save")
-    public String save(){
+    public String save(@Valid RequestBoardConfig config, Errors errors, Model model){
         //게시판 수정, 등록
+        String mode = config.getMode();
+        commonProcess(mode,model);
+        if(errors.hasErrors()){
+            return "admin/board/" +mode;
+        }
         return "redirect:/admin/board";
     }
     @GetMapping("/posts")

@@ -1,53 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="form">
-    <input type="hidden" name="gid" value="testgid">
+<th:block th:fragment="form" th:object="${requestBoardConfig}">
+    <div class="error global" th:each="err : ${#fields.globalErrors()}"
+         th:text="${err}"></div>
+    <input type="hidden" name="gid" th:field="*{gid}">
     <h2>기본 설정</h2>
     <table class="table_cols mb30">
         <tr>
             <th>사용여부</th>
             <td>
-                <input type="radio" name="active" value="true" id="active_true">
+                <input type="radio" name="active" value="true"
+                       id="active_true" th:field="*{active}">
             <label for="active_true">사용</label>
-            <input type="radio" name="active" value="false" id="active_false">
+            <input type="radio" name="active" value="false"
+                   id="active_false" th:field="*{active}"> <!-- checked -->
                 <label for="active_false">미사용</label>
             </td>
             </tr>
             <th>게시판 ID</th>
-            <td>
-                <input type="text" name="bid">
+            <td th:if="*{mode !='edit}">
+                <input type="text" name="bid" th:field="*{bid}"> <!-- value="..." -->
             </td>
+            <td th:if="*{mode == 'edit'}">
+            <input type="hidden" name="bid" th:field="*{bid}">
+            <th:block th:text="*{bid}"></th:block>
+        </td>
         </tr>
         <tr>
             <th>게시판 이름</th>
             <td>
-                <input type="text" name="bName">
+                <input type="text" name="bName" th:field="*{bName}">
             </td>
         </tr>
         <tr>
             <th>1페이지 게시글 수</th>
             <td>
-                <input type="number" name="rowsPerPage" min="1">
+                <input type="number" name="rowsPerPage" min="1"
+                       th:field="*{rowsPerPage}">
             </td>
         </tr>
         <tr>
             <th>페이지 구간 개수(PC)</th>
             <td>
-                <input type="number" name="pageCountPc" min="1">
+                <input type="number" name="pageCountPc" min="1"
+                       th:field="*{pageCountPc}">
             </td>
         </tr>
         <tr>
             <th>페이지 구간 개수(Mobile)</th>
             <td>
-                <input type="number" name="pageCountMobile" min="1">
+                <input type="number" name="pageCountMobile" min="1"
+                       th:field="*{pageCountMobile}">
             </td>
         </tr>
         <tr>
             <th>답글 사용</th>
             <td>
-                <input type="radio" name="useReply" value="true" id="useReply_true">
+                <input type="radio" name="useReply" value="true"
+                       id="useReply_true" th:field="*{useReply}">
             <label for="useReply_true">사용</label>
-                <input type="radio" name="useReply" value="false" id="useReply_false">
+
+                <input type="radio" name="useReply" value="false"
+                       id="useReply_false" th:field="*{useReply}">
                 <label for="useReply_false">미사용</label>
             </td>
         </tr>
@@ -55,10 +69,10 @@
             <th>댓글 사용</th>
             <td>
                 <input type="radio" name="useComment" value="true"
-                       id="useComment_true">
+                       id="useComment_true" th:field="*{useComment}">
                 <label for="useComment_true">사용</label>
                 <input type="radio" name="useComment" value="false"
-                       id="useComment_false">
+                       id="useComment_false" th:field="*{useComment}">
                 <label for="useComment_false">미사용</label>
             </td>
         </tr>
@@ -67,10 +81,10 @@
             <th>에디터</th>
             <td>
                 <input type="radio" name="useEditor" value="true"
-                       id="useEditor_true">
+                       id="useEditor_true" th:field="*{useEditor}">
                 <label for="useEditor_true">사용</label>
                 <input type="radio" name="useEditor" value="false"
-                       id="useEditor_false">
+                       id="useEditor_false" th:field="*{useEditor}">
                 <label for="useEditor_false">미사용</label>
             </td>
         </tr>
@@ -226,9 +240,11 @@
             <th width="180">내용</th>
             <td>
                 <textarea id="html_top" name="htmlTop"></textarea>
-            <button type="button" class="upload_files"
+            <button type="button" class="upload_files sbtn"
             data-location="html_top" data-image-only="true"
-                    >이미지 추가</button>
+                    >
+                <i class="xi-image"></i>
+                이미지 추가</button>
             <div class="uploaded_files" id="uploaded_files_html_top"></div>
             </td>
         </tr>
@@ -240,7 +256,7 @@
             <th width="180">내용</th>
             <td>
                 <textarea id="html_bottom" name="htmlBottom"></textarea>
-                <button type="button" class="upload_files"
+                <button type="button" class="upload_files sbtn"
                         data-location="html_bottom" data-image-only="true"
                         >이미지 추가</button>
                 <div class="uploaded_files" id="uploaded_files_html_bottom"></div>
